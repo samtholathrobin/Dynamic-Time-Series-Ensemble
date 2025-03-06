@@ -5,21 +5,21 @@ from hmmlearn import hmm
 from statsmodels.tsa.arima.model import ARIMA
 
 def get_mae_errors(df_test, out) -> np.float64:    
-    prev_days = 5
+    prev_days = 1
     if len(out) < prev_days:
         return (mean_absolute_error(df_test, out))
     else:
         return (mean_absolute_error(df_test[-prev_days:], out[-prev_days:]))
     
 def get_mse_errors(df_test, out) -> np.float64:    
-    prev_days = 5
+    prev_days = 1
     if len(out) < prev_days:
         return (mean_squared_error(df_test, out)) 
     else:
         return (mean_squared_error(df_test[-prev_days:], out[-prev_days:]))
     
 def get_mape_errors(df_test, out) -> np.float64:    
-    prev_days = 5
+    prev_days = 1
     if len(out) < prev_days:
         return (mean_absolute_percentage_error(df_test, out)) 
     else:
