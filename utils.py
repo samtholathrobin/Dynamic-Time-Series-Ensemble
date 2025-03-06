@@ -18,6 +18,14 @@ def get_mse_errors(df_test, out) -> np.float64:
     else:
         return (mean_squared_error(df_test[-prev_days:], out[-prev_days:]))
     
+
+def get_rmse_errors(df_test, out) -> np.float64:    
+    prev_days = 1
+    if len(out) < prev_days:
+        return np.sqrt((mean_squared_error(df_test, out)))
+    else:
+        return np.sqrt((mean_squared_error(df_test[-prev_days:], out[-prev_days:])))
+    
 def get_mape_errors(df_test, out) -> np.float64:    
     prev_days = 1
     if len(out) < prev_days:
@@ -32,7 +40,7 @@ def normalized_inverse_of_errors_weighting(model1, model2, model3):
     return weights
 
 @jit(nopython = True)
-def softmax_weighting(model1, model2, model3, gamma):
+def softmax_weighting(model1, model2, model3, gamma=1):
     errors = np.array([model1, model2, model3])
     weights = np.exp(-gamma * errors) / np.sum(np.exp(-gamma * errors))
     return weights
@@ -50,5 +58,4 @@ def rank_based_weighting(model1, model2, model3):
     weights = (1 / ranks) / np.sum(1 / ranks)
     return weights
 
-print(softmax_weighting(1,2,3))
         
