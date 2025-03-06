@@ -32,9 +32,8 @@ def normalized_inverse_of_errors_weighting(model1, model2, model3):
     return weights
 
 @jit(nopython = True)
-def softmax_weighting(model1, model2, model3):
+def softmax_weighting(model1, model2, model3, gamma):
     errors = np.array([model1, model2, model3])
-    gamma = 1
     weights = np.exp(-gamma * errors) / np.sum(np.exp(-gamma * errors))
     return weights
 
@@ -50,4 +49,6 @@ def rank_based_weighting(model1, model2, model3):
     ranks = np.argsort(np.argsort(errors)) + 1
     weights = (1 / ranks) / np.sum(1 / ranks)
     return weights
+
+print(softmax_weighting(1,2,3))
         
