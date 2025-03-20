@@ -58,4 +58,9 @@ def rank_based_weighting(model1, model2, model3):
     weights = (1 / ranks) / np.sum(1 / ranks)
     return weights
 
+@jit(nopython=True)
+def compute_cvar(errors, risk=0.05):
+    var_threshold = np.percentile(errors, (risk) * 100)  
+    cvar = errors[errors <= var_threshold].mean() 
+    return cvar
         
